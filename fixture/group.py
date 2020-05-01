@@ -20,4 +20,4 @@ class GroupHelper:
         driver.find_element_by_name("group_footer").clear()
         driver.find_element_by_name("group_footer").send_keys(group.comment)
         driver.find_element_by_name("submit").click()
-        self.app.open_group_page()
+        self.open_group_page()
