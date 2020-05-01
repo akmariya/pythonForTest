@@ -11,34 +11,35 @@ class AddNewContact(unittest.TestCase):
         self.driver.implicitly_wait(30)
     
     def test_add_new_contact(self):
-        driver = self.driver
-        self.open_main_page(driver)
-        self.login(driver)
-        self.add_new_contact(driver, Contact(firstname="Ivan", middlename="Ivanovich", lastname="Ivanov", nickname="Vanua", title="Some title",
+        self.open_main_page()
+        self.login()
+        self.add_new_contact(Contact(firstname="Ivan", middlename="Ivanovich", lastname="Ivanov", nickname="Vanua", title="Some title",
                                              company="Some company", address="Adress", home="Home", mobile=375, work=546, fax=9866, email="vanua@tut.by", email2="vanua2@tut.by",
                                              email3="vanua3@tut.by", homepage="vanya.com", bday="17", bmonth="January", byear="1996", aday="26", amonth="April", ayear="2000",
                                              new_group="Some Name", address2="Some adress", phone2="217", notes="Some notes"))
-        self.return_to_main_page(driver)
-        self.logout(driver)
+        self.return_to_main_page()
+        self.logout()
 
     def test_add_new_contact_with_empty_param(self):
-        driver = self.driver
-        self.open_main_page(driver)
-        self.login(driver)
-        self.add_new_contact(driver, Contact(firstname="", middlename="", lastname="", nickname="", title="",
+        self.open_main_page()
+        self.login()
+        self.add_new_contact(Contact(firstname="", middlename="", lastname="", nickname="", title="",
                                              company="", address="", home="", mobile="", work="", fax="", email="", email2="",
                                              email3="", homepage="", bday="", bmonth="-", byear="", aday="", amonth="-", ayear="",
                                              new_group="[none]", address2="", phone2="", notes=""))
-        self.return_to_main_page(driver)
-        self.logout(driver)
+        self.return_to_main_page()
+        self.logout()
 
-    def logout(self, driver):
+    def logout(self):
+        driver = self.driver
         driver.find_element_by_link_text("Logout").click()
 
-    def return_to_main_page(self, driver):
+    def return_to_main_page(self):
+        driver = self.driver
         driver.find_element_by_link_text("home").click()
 
-    def add_new_contact(self, driver, contact):
+    def add_new_contact(self, contact):
+        driver = self.driver
         driver.find_element_by_link_text("add new").click()
         driver.find_element_by_name("firstname").click()
         driver.find_element_by_name("firstname").clear()
@@ -104,7 +105,8 @@ class AddNewContact(unittest.TestCase):
         driver.find_element_by_name("notes").send_keys(contact.notes)
         driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def login(self, driver):
+    def login(self):
+        driver = self.driver
         driver.find_element_by_name("user").click()
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys("admin")
@@ -112,7 +114,8 @@ class AddNewContact(unittest.TestCase):
         driver.find_element_by_name("pass").send_keys("secret")
         driver.find_element_by_xpath("//input[@value='Login']").click()
 
-    def open_main_page(self, driver):
+    def open_main_page(self):
+        driver = self.driver
         driver.get("http://localhost/addressbook/")
 
     def tearDown(self):
