@@ -73,4 +73,3 @@ class ContactHelper:
         driver.find_element_by_name("notes").send_keys(contact.notes)
         driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.app.return_to_main_page()
-        
