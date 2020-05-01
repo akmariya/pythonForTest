@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
+from fixture.session import SessionHelper
+from fixture.group import GroupHelper
 
 
 class Application:
@@ -7,39 +9,8 @@ class Application:
     def __init__(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-
-    def logout(self):
-        driver = self.driver
-        driver.find_element_by_link_text("Logout").click()
-
-    def open_group_page(self):
-        driver = self.driver
-        driver.find_element_by_link_text("group page").click()
-
-    def add_new_group(self, group):
-        driver = self.driver
-        driver.find_element_by_name("new").click()
-        driver.find_element_by_name("group_name").click()
-        driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys(group.name)
-        driver.find_element_by_name("group_header").clear()
-        driver.find_element_by_name("group_header").send_keys(group.logo)
-        driver.find_element_by_name("group_footer").clear()
-        driver.find_element_by_name("group_footer").send_keys(group.comment)
-        driver.find_element_by_name("submit").click()
-        self.open_group_page()
-
-    def login(self, login, password):
-        self.open_main_page()
-        driver = self.driver
-        driver.find_element_by_id("LoginForm").click()
-        driver.find_element_by_name("user").click()
-        driver.find_element_by_name("user").clear()
-        driver.find_element_by_name("user").send_keys(login)
-        driver.find_element_by_name("pass").click()
-        driver.find_element_by_name("pass").clear()
-        driver.find_element_by_name("pass").send_keys(password)
-        driver.find_element_by_xpath("//input[@value='Login']").click()
+        self.session = SessionHelper(self)
+        self.group = GroupHelper(self)
 
     def open_main_page(self):
         driver = self.driver
@@ -119,4 +90,3 @@ class Application:
 
     def destroy(self):
         self.driver.quit()
-        
