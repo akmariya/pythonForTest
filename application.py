@@ -119,3 +119,4 @@ class Application:
 
     def destroy(self):
         self.driver.quit()
+        

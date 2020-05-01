@@ -16,4 +16,3 @@ def test_add_group(app):
     app.login(login="admin", password="secret")
     app.add_new_group(Group("Some name", "Some logo", "Some comment"))
     app.logout()
-
