@@ -15,7 +15,7 @@ class Application:
 
     def open_main_page(self):
         driver = self.driver
-        driver.get("http://localhost/addressbook/group.php")
+        driver.get("http://localhost/addressbook")
 
     def return_to_main_page(self):
         driver = self.driver

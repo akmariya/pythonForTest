@@ -7,10 +7,11 @@ class GroupHelper:
 
     def open_group_page(self):
         driver = self.app.driver
-        driver.find_element_by_link_text("group page").click()
+        driver.find_element_by_link_text("groups").click()
 
     def create(self, group):
         driver = self.app.driver
+        self.open_group_page()
         driver.find_element_by_name("new").click()
         driver.find_element_by_name("group_name").click()
         driver.find_element_by_name("group_name").clear()
