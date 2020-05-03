@@ -37,3 +37,11 @@ class GroupHelper:
         driver.find_element_by_name("group_footer").send_keys(group.comment)
         driver.find_element_by_name("update").click()
         self.open_group_page()
+
+    def delete_first_group(self):
+        driver = self.app.driver
+        self.open_group_page()
+        driver.find_element_by_name("selected[]").click()
+        driver.find_element_by_name("delete").click()
+        self.open_group_page()
+
