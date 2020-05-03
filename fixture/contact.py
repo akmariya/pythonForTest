@@ -73,3 +73,13 @@ class ContactHelper:
         driver.find_element_by_name("notes").send_keys(contact.notes)
         driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.app.return_to_main_page()
+
+    def edit_first_contact(self, name):
+        driver = self.app.driver
+        driver.find_element_by_name("selected[]").click()
+        driver.find_element_by_xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        driver.find_element_by_name("firstname").click()
+        driver.find_element_by_name("firstname").clear()
+        driver.find_element_by_name("firstname").send_keys(name)
+        driver.find_element_by_name("update").click()
+        self.app.return_to_main_page()
