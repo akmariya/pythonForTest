@@ -83,3 +83,10 @@ class ContactHelper:
         driver.find_element_by_name("firstname").send_keys(name)
         driver.find_element_by_name("update").click()
         self.app.return_to_main_page()
+
+    def delete_first_contact(self):
+        driver = self.app.driver
+        driver.find_element_by_name("selected[]").click()
+        driver.find_element_by_xpath("//*[@id='content']/form[2]/div[2]/input").click()
+        driver.switch_to_alert().accept()
+        self.app.return_to_main_page()
