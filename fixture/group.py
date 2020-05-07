@@ -13,13 +13,7 @@ class GroupHelper:
         driver = self.app.driver
         self.open_group_page()
         driver.find_element_by_name("new").click()
-        driver.find_element_by_name("group_name").click()
-        driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys(group.name)
-        driver.find_element_by_name("group_header").clear()
-        driver.find_element_by_name("group_header").send_keys(group.logo)
-        driver.find_element_by_name("group_footer").clear()
-        driver.find_element_by_name("group_footer").send_keys(group.comment)
+        self.add_info_to_group(group)
         driver.find_element_by_name("submit").click()
         self.open_group_page()
 
@@ -28,6 +22,12 @@ class GroupHelper:
         self.open_group_page()
         driver.find_element_by_name("selected[]").click()
         driver.find_element_by_name("edit").click()
+        self.add_info_to_group(group)
+        driver.find_element_by_name("update").click()
+        self.open_group_page()
+
+    def add_info_to_group(self, group):
+        driver = self.app.driver
         driver.find_element_by_name("group_name").click()
         driver.find_element_by_name("group_name").clear()
         driver.find_element_by_name("group_name").send_keys(group.name)
@@ -35,8 +35,6 @@ class GroupHelper:
         driver.find_element_by_name("group_header").send_keys(group.logo)
         driver.find_element_by_name("group_footer").clear()
         driver.find_element_by_name("group_footer").send_keys(group.comment)
-        driver.find_element_by_name("update").click()
-        self.open_group_page()
 
     def delete_first_group(self):
         driver = self.app.driver
