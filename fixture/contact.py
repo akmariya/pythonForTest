@@ -9,6 +9,23 @@ class ContactHelper:
     def add(self, contact):
         driver = self.app.driver
         driver.find_element_by_link_text("add new").click()
+        self.add_info_to_contact(contact)
+        driver.find_element_by_name("new_group").click()
+        Select(driver.find_element_by_name("new_group")).select_by_visible_text(contact.new_group)
+        driver.find_element_by_name("new_group").click()
+        driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.app.return_to_main_page()
+
+    def edit_first_contact(self, contact):
+        driver = self.app.driver
+        driver.find_element_by_name("selected[]").click()
+        driver.find_element_by_xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        self.add_info_to_contact(contact)
+        driver.find_element_by_name("update").click()
+        self.app.return_to_main_page()
+
+    def add_info_to_contact(self, contact):
+        driver = self.app.driver
         driver.find_element_by_name("firstname").click()
         driver.find_element_by_name("firstname").clear()
         driver.find_element_by_name("firstname").send_keys(contact.firstname)
@@ -60,9 +77,6 @@ class ContactHelper:
         driver.find_element_by_name("ayear").click()
         driver.find_element_by_name("ayear").clear()
         driver.find_element_by_name("ayear").send_keys(contact.ayear)
-        driver.find_element_by_name("new_group").click()
-        Select(driver.find_element_by_name("new_group")).select_by_visible_text(contact.new_group)
-        driver.find_element_by_name("new_group").click()
         driver.find_element_by_name("address2").click()
         driver.find_element_by_name("address2").clear()
         driver.find_element_by_name("address2").send_keys(contact.address2)
@@ -71,18 +85,6 @@ class ContactHelper:
         driver.find_element_by_name("phone2").send_keys(contact.phone2)
         driver.find_element_by_name("notes").clear()
         driver.find_element_by_name("notes").send_keys(contact.notes)
-        driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
-        self.app.return_to_main_page()
-
-    def edit_first_contact(self, name):
-        driver = self.app.driver
-        driver.find_element_by_name("selected[]").click()
-        driver.find_element_by_xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
-        driver.find_element_by_name("firstname").click()
-        driver.find_element_by_name("firstname").clear()
-        driver.find_element_by_name("firstname").send_keys(name)
-        driver.find_element_by_name("update").click()
-        self.app.return_to_main_page()
 
     def delete_first_contact(self):
         driver = self.app.driver
