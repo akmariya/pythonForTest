@@ -18,6 +18,7 @@ class ContactHelper:
 
     def edit_first_contact(self, contact):
         driver = self.app.driver
+        self.app.open_main_page()
         driver.find_element_by_name("selected[]").click()
         driver.find_element_by_xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.add_info_to_contact(contact)
@@ -88,6 +89,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         driver = self.app.driver
+        self.app.open_main_page()
         driver.find_element_by_name("selected[]").click()
         driver.find_element_by_xpath("//*[@id='content']/form[2]/div[2]/input").click()
         driver.switch_to_alert().accept()
