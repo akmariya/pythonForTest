@@ -28,13 +28,16 @@ class GroupHelper:
 
     def add_info_to_group(self, group):
         driver = self.app.driver
-        driver.find_element_by_name("group_name").click()
-        driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys(group.name)
-        driver.find_element_by_name("group_header").clear()
-        driver.find_element_by_name("group_header").send_keys(group.logo)
-        driver.find_element_by_name("group_footer").clear()
-        driver.find_element_by_name("group_footer").send_keys(group.comment)
+        self.type("group_name", group.name)
+        self.type("group_header", group.logo)
+        self.type("group_footer", group.comment)
+
+    def type(self, field_name, text):
+        driver = self.app.driver
+        if text is not None:
+            driver.find_element_by_name(field_name).click()
+            driver.find_element_by_name(field_name).clear()
+            driver.find_element_by_name(field_name).send_keys(text)
 
     def delete_first_group(self):
         driver = self.app.driver
@@ -43,3 +46,7 @@ class GroupHelper:
         driver.find_element_by_name("delete").click()
         self.open_group_page()
 
+    def count(self):
+        driver = self.app.driver
+        self.open_group_page()
+        return len(driver.find_elements_by_name("selected[]"))
