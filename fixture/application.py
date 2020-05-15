@@ -22,7 +22,8 @@ class Application:
 
     def open_main_page(self):
         driver = self.driver
-        driver.get("http://localhost/addressbook")
+        if not (len(driver.find_elements_by_name("Send e-Mail")) > 0):
+            driver.get("http://localhost/addressbook")
 
     def return_to_main_page(self):
         driver = self.driver
