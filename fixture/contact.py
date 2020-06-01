@@ -84,3 +84,20 @@ class ContactHelper:
         driver = self.app.driver
         self.app.open_main_page()
         return len(driver.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        driver = self.app.driver
+        self.app.open_main_page()
+        contact_list = []
+        n = 0
+        for element in driver.find_elements_by_name("entry"):
+            n += 1
+            text = element.text
+            print("!!!!!!!!!!!")
+            print(text)
+            print("11111111111")
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            print(id)
+           # contact_list.append(Group(name=text, id = id))
+        print(n)
+        return contact_list
