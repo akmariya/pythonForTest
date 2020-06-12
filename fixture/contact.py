@@ -1,5 +1,7 @@
 from selenium.webdriver.support.ui import Select
 
+from model.contact import Contact
+
 
 class ContactHelper:
 
@@ -89,15 +91,9 @@ class ContactHelper:
         driver = self.app.driver
         self.app.open_main_page()
         contact_list = []
-        n = 0
         for element in driver.find_elements_by_name("entry"):
-            n += 1
-            text = element.text
-            print("!!!!!!!!!!!")
-            print(text)
-            print("11111111111")
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            print(id)
-           # contact_list.append(Group(name=text, id = id))
-        print(n)
+            text = element.find_elements_by_tag_name("td")
+            id = element.find_element_by_name("selected[]").get_attribute(
+                "value")
+            contact_list.append(Contact(firstname=text[2].text, lastname=text[1].text, id=id))
         return contact_list
