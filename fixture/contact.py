@@ -17,10 +17,10 @@ class ContactHelper:
         self.app.return_to_main_page()
         self.contact_cache = None
 
-    def edit_first_contact(self, contact):
+    def edit_first_contact(self, contact, index):
         driver = self.app.driver
         self.app.open_main_page()
-        driver.find_element_by_name("selected[]").click()
+        self.select_contact_by_index(index)
         driver.find_element_by_xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.add_info_to_contact(contact)
         driver.find_element_by_name("update").click()
@@ -77,13 +77,23 @@ class ContactHelper:
             driver.find_element_by_name(field_name).click()
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         driver = self.app.driver
         self.app.open_main_page()
-        driver.find_element_by_name("selected[]").click()
+        self.select_contact_by_index(index)
         driver.find_element_by_xpath("//*[@id='content']/form[2]/div[2]/input").click()
         driver.switch_to_alert().accept()
         self.app.return_to_main_page()
         self.contact_cache = None
+
+    def select_first_contact(self):
+        self.select_contact_by_index(0)
+
+    def select_contact_by_index(self, index):
+        driver = self.app.driver
+        driver.find_elements_by_name("selected[]")[index].click()
 
     def count(self):
         driver = self.app.driver
