@@ -18,6 +18,7 @@ class GroupHelper:
         self.add_info_to_group(group)
         driver.find_element_by_name("submit").click()
         self.open_group_page()
+        self.group_cache = None
 
     def edit_first_group(self, group):
         driver = self.app.driver
@@ -27,6 +28,7 @@ class GroupHelper:
         self.add_info_to_group(group)
         driver.find_element_by_name("update").click()
         self.open_group_page()
+        self.group_cache = None
 
     def add_info_to_group(self, group):
         driver = self.app.driver
@@ -47,18 +49,22 @@ class GroupHelper:
         driver.find_element_by_name("selected[]").click()
         driver.find_element_by_name("delete").click()
         self.open_group_page()
+        self.group_cache = None
 
     def count(self):
         driver = self.app.driver
         self.open_group_page()
         return len(driver.find_elements_by_name("selected[]"))
 
+    group_cache = None
+
     def get_group_list(self):
-        driver = self.app.driver
-        self.open_group_page()
-        group_list = []
-        for element in driver.find_elements_by_css_selector("span.group"):
-            text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            group_list.append(Group(name=text, id = id))
-        return group_list
+        if self.group_cache is None:
+            driver = self.app.driver
+            self.open_group_page()
+            self.group_cache = []
+            for element in driver.find_elements_by_css_selector("span.group"):
+                text = element.text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.group_cache.append(Group(name=text, id = id))
+        return list(self.group_cache)
