@@ -20,8 +20,7 @@ class ContactHelper:
     def edit_first_contact(self, contact, index):
         driver = self.app.driver
         self.app.open_main_page()
-        self.select_contact_by_index(index)
-        driver.find_element_by_xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        driver.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         self.add_info_to_contact(contact)
         driver.find_element_by_name("update").click()
         self.app.return_to_main_page()
