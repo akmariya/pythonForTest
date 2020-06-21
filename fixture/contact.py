@@ -1,5 +1,5 @@
 from selenium.webdriver.support.ui import Select
-
+import re
 from model.contact import Contact
 
 
@@ -17,14 +17,22 @@ class ContactHelper:
         self.app.return_to_main_page()
         self.contact_cache = None
 
-    def edit_first_contact(self, contact, index):
+    def edit_some_contact_by_index(self, contact, index):
         driver = self.app.driver
         self.app.open_main_page()
-        driver.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+        self.open_contact_for_edit_by_index(index)
         self.add_info_to_contact(contact)
         driver.find_element_by_name("update").click()
         self.app.return_to_main_page()
         self.contact_cache = None
+
+    def open_contact_for_edit_by_index(self, index):
+        driver = self.app.driver
+        driver.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+
+    def open_contact_for_view_by_index(self, index):
+        driver = self.app.driver
+        driver.find_elements_by_xpath("//img[@alt='Details']")[index].click()
 
     def add_info_to_contact(self, contact):
         driver = self.app.driver
@@ -108,7 +116,42 @@ class ContactHelper:
             self.contact_cache = []
             for element in driver.find_elements_by_name("entry"):
                 text = element.find_elements_by_tag_name("td")
-                id = element.find_element_by_name("selected[]").get_attribute(
-                    "value")
-                self.contact_cache.append(Contact(firstname=text[2].text, lastname=text[1].text, id=id))
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                all_phones = text[5].text.splitlines()
+                all_emails = text[4].text.splitlines()
+                address = text[3].text
+                self.contact_cache.append(Contact(firstname=text[2].text, lastname=text[1].text, id=id,
+                                                  home=all_phones[0], mobile=all_phones[1], work=all_phones[2],
+                                                  phone2=all_phones[3], email=all_emails[0], email2=all_emails[1],email3=all_emails[2],
+                                                  address=address))
         return self.contact_cache
+
+    def get_info_from_edit_page(self, index):
+        driver = self.app.driver
+        self.app.open_main_page()
+        self.open_contact_for_edit_by_index(index)
+        firstname = driver.find_element_by_name("firstname").get_attribute("value")
+        lastname = driver.find_element_by_name("lastname").get_attribute("value")
+        id = driver.find_element_by_name("id").get_attribute("value")
+        homephone = driver.find_element_by_name("home").get_attribute("value")
+        mobilephone = driver.find_element_by_name("mobile").get_attribute("value")
+        workphone = driver.find_element_by_name("work").get_attribute("value")
+        phone2 = driver.find_element_by_name("phone2").get_attribute("value")
+        email = driver.find_element_by_name("email").get_attribute("value")
+        email2 = driver.find_element_by_name("email2").get_attribute("value")
+        email3 = driver.find_element_by_name("email3").get_attribute("value")
+        address = driver.find_element_by_name("address").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lastname, id=id,
+                       home=homephone, mobile=mobilephone, work=workphone, phone2=phone2,
+                       email=email, email2=email2, email3=email3, address=address)
+
+    def get_contact_from_view_page(self, index):
+        driver = self.app.driver
+        self.app.open_main_page()
+        self.open_contact_for_view_by_index(index)
+        text = driver.find_element_by_id("content").text
+        homephone = re.search("H: (.*)", text).group(1)
+        workphone = re.search("W: (.*)", text).group(1)
+        mobilephone = re.search("M: (.*)", text).group(1)
+        phone2 = re.search("P: (.*)", text).group(1)
+        return Contact(home=homephone, mobile=mobilephone, work=workphone, phone2=phone2)
