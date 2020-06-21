@@ -117,13 +117,12 @@ class ContactHelper:
             for element in driver.find_elements_by_name("entry"):
                 text = element.find_elements_by_tag_name("td")
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                all_phones = text[5].text.splitlines()
-                all_emails = text[4].text.splitlines()
+                all_phones = text[5].text
+                all_emails = text[4].text
                 address = text[3].text
                 self.contact_cache.append(Contact(firstname=text[2].text, lastname=text[1].text, id=id,
-                                                  home=all_phones[0], mobile=all_phones[1], work=all_phones[2],
-                                                  phone2=all_phones[3], email=all_emails[0], email2=all_emails[1],email3=all_emails[2],
-                                                  address=address))
+                                                  all_phones_from_home_page=all_phones,
+                                                  all_emails_from_home_page=all_emails, address=address))
         return self.contact_cache
 
     def get_info_from_edit_page(self, index):
