@@ -49,7 +49,7 @@ testdata = [Contact(firstname="", middlename="", lastname="")] + [
             byear=random_digits(2021), aday=random_digits(32), amonth=random_month(),
             ayear=random_digits(2021), new_group="Some name", address2=random_string("address2", 10),
             phone2=random_string("phone2", 10), notes=random_string("notes", 10))
-    for i in range(5)
+    for i in range(n)
 ]
 
 file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
