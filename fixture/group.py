@@ -82,3 +82,15 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, id = id))
         return list(self.group_cache)
+
+    def delete_group_by_id(self, id):
+        driver = self.app.driver
+        self.open_group_page()
+        self.select_group_by_id(id)
+        driver.find_element_by_name("delete").click()
+        self.open_group_page()
+        self.group_cache = None
+
+    def select_group_by_id(self, id):
+        driver = self.app.driver
+        driver.find_element_by_css_selector("input[value='%s']" % id).click()
