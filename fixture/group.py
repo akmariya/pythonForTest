@@ -33,6 +33,16 @@ class GroupHelper:
         self.open_group_page()
         self.group_cache = None
 
+    def edit_group_by_id(self,group, id):
+        driver = self.app.driver
+        self.open_group_page()
+        self.select_group_by_id(id)
+        driver.find_element_by_name("edit").click()
+        self.add_info_to_group(group)
+        driver.find_element_by_name("update").click()
+        self.open_group_page()
+        self.group_cache = None
+
     def add_info_to_group(self, group):
         driver = self.app.driver
         self.type("group_name", group.name)
