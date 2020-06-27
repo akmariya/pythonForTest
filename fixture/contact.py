@@ -17,6 +17,15 @@ class ContactHelper:
         self.app.return_to_main_page()
         self.contact_cache = None
 
+    def add_to_group(self, contact):
+        driver = self.app.driver
+        driver.find_element_by_link_text("add new").click()
+        self.add_info_to_contact(contact)
+        self.type_drop("new_group", contact.new_group)
+        driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.app.return_to_main_page()
+        self.contact_cache = None
+
     def edit_some_contact_by_index(self, contact, index):
         driver = self.app.driver
         self.app.open_main_page()
@@ -180,3 +189,19 @@ class ContactHelper:
         mobilephone = re.search("M: (.*)", text).group(1)
         phone2 = re.search("P: (.*)", text).group(1)
         return Contact(home=homephone, mobile=mobilephone, work=workphone, phone2=phone2)
+
+    def delete_contact_from_group(self, contact, group):
+        driver = self.app.driver
+        self.app.open_main_page()
+        driver.find_element_by_name("group").click()
+        driver.find_element_by_xpath("//option[@value='%s']" % group.id).click()
+        self.select_contact_by_id(contact.id)
+        driver.find_element_by_name("remove").click()
+
+    def add_contact_to_group(self, contact, group):
+        driver = self.app.driver
+        self.app.open_main_page()
+        self.select_contact_by_id(contact.id)
+        driver.find_element_by_name("to_group").click()
+        driver.find_element_by_xpath("(//option[@value='%s'])[2]" % group.id).click()
+        driver.find_element_by_name("add").click()

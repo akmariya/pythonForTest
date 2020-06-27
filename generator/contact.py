@@ -13,7 +13,7 @@ except getopt.GetoptError as err:
     getopt.usage()
     sys.exit(2)
 
-n = 2
+n = 1
 f = "data/contacts.json"
 
 for o, a in opts:
@@ -47,7 +47,7 @@ testdata = [Contact(firstname="", middlename="", lastname="")] + [
             email2=random_string("email2", 10), email3=random_string("email3", 10),
             homepage=random_string("homepage", 10), bday=random_digits(32), bmonth=random_month(),
             byear=random_digits(2021), aday=random_digits(32), amonth=random_month(),
-            ayear=random_digits(2021), new_group="Some name", address2=random_string("address2", 10),
+            ayear=random_digits(2021), address2=random_string("address2", 10),
             phone2=random_string("phone2", 10), notes=random_string("notes", 10))
     for i in range(n)
 ]
