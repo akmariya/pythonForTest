@@ -188,7 +188,8 @@ class ContactHelper:
         workphone = re.search("W: (.*)", text).group(1)
         mobilephone = re.search("M: (.*)", text).group(1)
         phone2 = re.search("P: (.*)", text).group(1)
-        return Contact(home=homephone, mobile=mobilephone, work=workphone, phone2=phone2)
+        id = driver.find_element_by_xpath("//*[@id='content']/form[2]/input[1]").get_attribute("value")
+        return Contact(home=homephone, mobile=mobilephone, work=workphone, phone2=phone2, id=id)
 
     def delete_contact_from_group(self, contact, group):
         driver = self.app.driver
